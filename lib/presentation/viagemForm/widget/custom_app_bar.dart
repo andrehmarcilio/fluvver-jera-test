@@ -24,6 +24,7 @@ class CustomAppBar extends StatelessWidget {
       decoration:
           const BoxDecoration(gradient: linearGradiente, boxShadow: [shadow]),
       child: SafeArea(
+        bottom: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

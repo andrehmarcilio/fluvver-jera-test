@@ -10,16 +10,18 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: SizedBox(
-        width: double.infinity,
-        height: 48,
-        child: ElevatedButton(
-          onPressed: onPress,
-          child:  Text(
-            text,
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SizedBox(
+          width: double.infinity,
+          height: 48,
+          child: ElevatedButton(
+            onPressed: onPress,
+            child:  Text(
+              text,
+              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+            ),
           ),
         ),
       ),

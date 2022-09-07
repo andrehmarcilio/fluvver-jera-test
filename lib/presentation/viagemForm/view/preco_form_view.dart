@@ -56,7 +56,8 @@ class _PrecoFormViewState extends State<PrecoFormView> {
                         child: TextField(
                           controller: _precoController,
                           decoration: const InputDecoration(
-                            prefix: Text("R\$ ")
+                            prefix: Text("R\$ "),
+                            border: UnderlineInputBorder()
                           ),
                         ),
                       ),
