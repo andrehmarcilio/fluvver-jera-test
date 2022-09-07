@@ -9,6 +9,7 @@ import '../widget/custom_auto_complete_widget.dart';
 import '../widget/custom_elevated_button.dart';
 import '../widget/custom_app_bar.dart';
 import '../widget/custom_text_field.dart';
+import '../widget/trajeto_map.dart';
 import 'ponto_intermediario_form_view.dart';
 import 'tamanho_form_view.dart';
 
@@ -142,11 +143,7 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                       ),
                     ),
                   ),
-                  Container(
-                    width: 24,
-                    height: 24,
-                    color: Colors.green,
-                  )
+                  const MapSample()
                 ]),
               ),
             ],
