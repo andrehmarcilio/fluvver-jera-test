@@ -24,16 +24,16 @@ final theme = ThemeData(
   ),
   tabBarTheme: const TabBarTheme(
     labelStyle: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w700,
-      color: Colors.white
-    ),
+        fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
     unselectedLabelStyle: TextStyle(
-      fontSize: 14,
+        fontSize: 14,
         fontWeight: FontWeight.w700,
-      color:Color.fromRGBO(255, 255, 255, 0.54)
-    ),
+        color: Color.fromRGBO(255, 255, 255, 0.54)),
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+    border: OutlineInputBorder(),
   )
+
 );
 
 const linearGradiente = LinearGradient(

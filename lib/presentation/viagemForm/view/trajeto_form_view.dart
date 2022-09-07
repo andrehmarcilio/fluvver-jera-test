@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:muvver_jera_teste/data/remote/maps/maps_repository.dart';
+import 'package:muvver_jera_teste/data/remote/maps/maps_service.dart';
+import 'package:muvver_jera_teste/domain/useCases/auto_completar_campo_cidade_use_case.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
 
+import '../../../domain/entity/lugar_auto_complete.dart';
+import '../widget/custom_auto_complete_widget.dart';
 import '../widget/custom_elevated_button.dart';
 import '../widget/custom_app_bar.dart';
 import '../widget/custom_text_field.dart';
@@ -20,11 +25,13 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
 
   final dataChegadaController = TextEditingController();
 
-  final cidadeOrigemController = TextEditingController();
-
-  final cidadeDestinoController = TextEditingController();
-
   late TabController tabController;
+
+  final autoCompletar =
+      AutoCompletarCampoCidadeUseCase(MapsRepository(MapsService()));
+
+  List<LugarAutoComplete> lugaresOrigem = [];
+  List<LugarAutoComplete> lugaresDestino = [];
 
   @override
   void initState() {
@@ -98,18 +105,34 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                           const SizedBox(
                             height: 31,
                           ),
-                          CustomTextField(
-                            icon: const Icon(Icons.search),
-                            controller: cidadeOrigemController,
+                          CustomAutoComplete(
                             label: "Cidade de origem",
+                            onSelected: (value) {},
+                            optionsBuilder: (textEdt) async {
+                              try {
+                                lugaresOrigem =
+                                    await autoCompletar(textEdt.text);
+                                return lugaresOrigem.map((e) => e.nome);
+                              } catch (e) {
+                                return [];
+                              }
+                            },
                           ),
                           const SizedBox(
                             height: 30,
                           ),
-                          CustomTextField(
-                            icon: const Icon(Icons.search),
-                            controller: cidadeDestinoController,
+                          CustomAutoComplete(
                             label: "Cidade de destino",
+                            onSelected: (value) {},
+                            optionsBuilder: (textEdt) async {
+                              try {
+                                lugaresDestino =
+                                    await autoCompletar(textEdt.text);
+                                return lugaresDestino.map((e) => e.nome);
+                              } catch (e) {
+                                return [];
+                              }
+                            },
                           ),
                           const SizedBox(
                             height: 28,

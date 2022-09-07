@@ -23,7 +23,7 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
             prefixIcon: icon,
-            label: Text(label), border: const OutlineInputBorder()),
+            label: Text(label)),
       ),
     );
   }
