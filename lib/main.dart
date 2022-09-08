@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'presentation/home/view/home_view.dart';
 import 'presentation/theme.dart';
@@ -15,6 +16,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     _mudarCorDaStatusBar();
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale("pt", "BR")],
       debugShowCheckedModeBanner: false,
       title: 'Muvver',
       theme: theme,
