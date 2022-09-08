@@ -17,19 +17,36 @@ class ViagemFormFlow extends StatelessWidget {
     return FlowBuilder<Viagem>(
       state: Viagem(),
       onComplete: (viagem) {
+        print(viagem);
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const ViagemCriadaView()));
       },
       onGeneratePages: (viagem, pages) {
         return [
-          MaterialPage(child: VeiculoFormView(popFormFlow: () => Navigator.of(context).pop(),)),
+          MaterialPage(
+              child: VeiculoFormView(
+            popFormFlow: () => Navigator.of(context).pop(),
+          )),
           if (viagem.veiculo != null)
-            const MaterialPage(child: TrajetoFormView()),
-          if (viagem.rota != null) const MaterialPage(child: TamanhoFormView()),
+            MaterialPage(
+                child: TrajetoFormView(
+              popFormFlow: () => Navigator.of(context).pop(),
+            )),
+          if (viagem.rota != null)
+             MaterialPage(
+                child: TamanhoFormView(
+              popFormFlow: () => Navigator.of(context).pop(),
+            )),
           if (viagem.volume?.tamanho != null)
-            const MaterialPage(child: PesoFormView()),
+             MaterialPage(
+                child: PesoFormView(
+              popFormFlow: () => Navigator.of(context).pop(),
+            )),
           if (viagem.volume?.peso != null)
-            const MaterialPage(child: PrecoFormView()),
+            MaterialPage(
+                child: PrecoFormView(
+              popFormFlow: () => Navigator.of(context).pop(),
+            )),
         ];
       },
     );

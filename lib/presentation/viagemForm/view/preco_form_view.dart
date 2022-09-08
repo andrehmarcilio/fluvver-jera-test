@@ -7,8 +7,8 @@ import '../../../domain/entity/viagem.dart';
 import '../widget/custom_elevated_button.dart';
 
 class PrecoFormView extends StatefulWidget {
-  const PrecoFormView({Key? key}) : super(key: key);
-
+  const PrecoFormView({Key? key, this.popFormFlow}) : super(key: key);
+  final VoidCallback? popFormFlow;
   @override
   State<PrecoFormView> createState() => _PrecoFormViewState();
 }
@@ -34,10 +34,11 @@ class _PrecoFormViewState extends State<PrecoFormView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomAppBar(
+              CustomAppBar(
                 titulo: "Ser um Muvver",
                 descricao: "Definir preço mínimo do deslocamento?",
                 showCancelButton: true,
+                popFormFlow: widget.popFormFlow,
               ),
               Expanded(
                   child: SingleChildScrollView(

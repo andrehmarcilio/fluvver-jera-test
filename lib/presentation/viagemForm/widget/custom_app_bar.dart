@@ -43,7 +43,7 @@ class CustomAppBar extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        if(popFormFlow != null) {
+                        if(popFormFlow != null && !showCancelButton) {
                           popFormFlow!();
                         }
                         Navigator.of(context).pop();
@@ -66,7 +66,9 @@ class CustomAppBar extends StatelessWidget {
                     child: showCancelButton
                         ? InkWell(
                             onTap: () {
-                              Navigator.of(context).popUntil((route) => route.isFirst);
+                              if(popFormFlow != null) {
+                                popFormFlow!();
+                              }
                             },
                             child: const Text(
                               "Cancelar",

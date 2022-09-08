@@ -22,8 +22,8 @@ import '../widget/ponto_intermediario_item.dart';
 import '../widget/trajeto_map.dart';
 
 class TrajetoFormView extends StatefulWidget {
-  const TrajetoFormView({Key? key}) : super(key: key);
-
+  const TrajetoFormView({Key? key,   this.popFormFlow}) : super(key: key);
+  final VoidCallback? popFormFlow;
   @override
   State<TrajetoFormView> createState() => _TrajetoFormViewState();
 }
@@ -74,6 +74,7 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                   titulo: "Viajante",
                   descricao: "Qual o trajeto da sua viagem?",
                   showCancelButton: true,
+                  popFormFlow: widget.popFormFlow,
                   tabBar: TabBar(
                     indicatorColor: Colors.white,
                     controller: tabController,

@@ -11,8 +11,8 @@ import '../widget/custom_elevated_button.dart';
 import '../widget/custom_item_check_box.dart';
 
 class PesoFormView extends StatefulWidget {
-  const PesoFormView({Key? key}) : super(key: key);
-
+  const PesoFormView({Key? key, this.popFormFlow}) : super(key: key);
+  final VoidCallback? popFormFlow;
   @override
   State<PesoFormView> createState() => _PesoFormViewState();
 }
@@ -38,10 +38,11 @@ class _PesoFormViewState extends State<PesoFormView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomAppBar(
+              CustomAppBar(
                 titulo: "Ser um Muvver",
                 descricao: "Qual o peso do volume?",
                 showCancelButton: true,
+                popFormFlow: widget.popFormFlow,
               ),
               Expanded(
                 child: SingleChildScrollView(

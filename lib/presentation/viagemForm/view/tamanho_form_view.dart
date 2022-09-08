@@ -11,8 +11,8 @@ import '../widget/custom_elevated_button.dart';
 import '../widget/custom_item_check_box.dart';
 
 class TamanhoFormView extends StatefulWidget {
-  const TamanhoFormView({Key? key}) : super(key: key);
-
+  const TamanhoFormView({Key? key, this.popFormFlow}) : super(key: key);
+  final VoidCallback? popFormFlow;
   @override
   State<TamanhoFormView> createState() => _TamanhoFormViewState();
 }
@@ -37,11 +37,12 @@ class _TamanhoFormViewState extends State<TamanhoFormView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomAppBar(
+               CustomAppBar(
                 titulo: "Ser um Muvver",
                 descricao:
                     "O volume que você pode deslocar tem tamanho similar a que?",
                 showCancelButton: true,
+                popFormFlow: widget.popFormFlow,
               ),
               Expanded(
                 child: SingleChildScrollView(
