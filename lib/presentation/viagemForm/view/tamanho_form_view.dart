@@ -7,6 +7,7 @@ import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dar
 import '../../../domain/entity/tamanho.dart';
 import '../../../domain/entity/viagem.dart';
 import '../../../domain/entity/volume.dart';
+import '../../../utils/toast/advice_toast.dart';
 import '../widget/custom_elevated_button.dart';
 import '../widget/custom_item_check_box.dart';
 
@@ -90,6 +91,9 @@ class _TamanhoFormViewState extends State<TamanhoFormView> {
           CustomElevatedButton(onPress: () {
             if (tamanhoSelecionado != null) {
               _atualizarFluxoFormulario(tamanhoSelecionado!);
+            } else {
+              AdviceToast.show(
+                  context, "Selecione algum item para continuar");
             }
           }),
         ],
