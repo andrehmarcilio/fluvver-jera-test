@@ -58,7 +58,9 @@ class ViagemCriadaView extends StatelessWidget {
               ),
             );
           }),
-          CustomElevatedButton(onPress: () {}, text: "Visualizar volumes",)
+          CustomElevatedButton(onPress: () {
+            Navigator.of(context).pop();
+          }, text: "Visualizar volumes",)
         ],
       ),
     );

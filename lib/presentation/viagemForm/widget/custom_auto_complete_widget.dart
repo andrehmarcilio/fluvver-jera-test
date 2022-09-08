@@ -3,10 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CustomAutoComplete extends StatelessWidget {
-  const CustomAutoComplete({Key? key, required this.label, required this.optionsBuilder, required this.onSelected}) : super(key: key);
+  const CustomAutoComplete(
+      {Key? key,
+      required this.label,
+      required this.optionsBuilder,
+      required this.onSelected, this.erro})
+      : super(key: key);
   final String label;
   final FutureOr<Iterable<String>> Function(TextEditingValue) optionsBuilder;
   final Function(String) onSelected;
+  final String? erro;
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +22,12 @@ class CustomAutoComplete extends StatelessWidget {
         optionsBuilder: optionsBuilder,
         onSelected: onSelected,
         fieldViewBuilder: (context, controller, focusNode, onSubmit) {
-          return  TextField(
+          return TextField(
             focusNode: focusNode,
-            decoration:  InputDecoration(
-              prefixIcon:  const Icon(Icons.search),
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.search),
               label: Text(label),
+              errorText: erro
             ),
             controller: controller,
           );

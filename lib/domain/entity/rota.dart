@@ -13,4 +13,9 @@ class Rota {
       required this.cidadeOrigem,
       required this.cidadeDestino,
       required this.pontosIntermediarios});
+
+  @override
+  String toString() {
+    return "Rota (dataPartida : $dataPartida, dataChegada : $dataChegada, cidadeOrigem : ${cidadeOrigem.nome}, cidadeDestino : ${cidadeDestino.nome}, pontosIntermediarios : $pontosIntermediarios)";
+  }
 }

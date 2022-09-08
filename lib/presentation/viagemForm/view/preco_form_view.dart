@@ -1,9 +1,10 @@
+import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/custom_app_bar.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
 
+import '../../../domain/entity/viagem.dart';
 import '../widget/custom_elevated_button.dart';
-import 'viagem_criada_view.dart';
 
 class PrecoFormView extends StatefulWidget {
   const PrecoFormView({Key? key}) : super(key: key);
@@ -16,6 +17,12 @@ class _PrecoFormViewState extends State<PrecoFormView> {
   double value = 100.0;
 
   final _precoController = TextEditingController(text: "100.00");
+
+  void _atualizarFluxoFormulario(double preco) {
+    context.flow<Viagem>().complete((viagem) =>
+        viagem.copyWith(
+            preco:preco));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +108,7 @@ class _PrecoFormViewState extends State<PrecoFormView> {
             ],
           ),
           CustomElevatedButton(onPress: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ViagemCriadaView()));
+            _atualizarFluxoFormulario(value);
           }),
         ],
       ),

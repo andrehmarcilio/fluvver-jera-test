@@ -1,12 +1,14 @@
+import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/custom_app_bar.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/custom_divider.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
 
 import '../../../domain/entity/tamanho.dart';
+import '../../../domain/entity/viagem.dart';
+import '../../../domain/entity/volume.dart';
 import '../widget/custom_elevated_button.dart';
 import '../widget/custom_item_check_box.dart';
-import 'peso_form_view.dart';
 
 class TamanhoFormView extends StatefulWidget {
   const TamanhoFormView({Key? key}) : super(key: key);
@@ -17,7 +19,13 @@ class TamanhoFormView extends StatefulWidget {
 
 class _TamanhoFormViewState extends State<TamanhoFormView> {
   final List<Tamanho> tamanhos = Tamanho.values;
-  String? tamanhoSelecionado;
+  Tamanho? tamanhoSelecionado;
+
+  void _atualizarFluxoFormulario(Tamanho tamanho) {
+    context.flow<Viagem>().update((viagem) => viagem.copyWith(
+        volume: viagem.volume?.copyWith(tamanho: tamanho) ??
+            Volume(tamanho: tamanho)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +39,8 @@ class _TamanhoFormViewState extends State<TamanhoFormView> {
             children: [
               const CustomAppBar(
                 titulo: "Ser um Muvver",
-                descricao: "O volume que você pode deslocar tem tamanho similar a que?",
+                descricao:
+                    "O volume que você pode deslocar tem tamanho similar a que?",
                 showCancelButton: true,
               ),
               Expanded(
@@ -56,7 +65,7 @@ class _TamanhoFormViewState extends State<TamanhoFormView> {
                             final tamanho = tamanhos[position];
                             return CustomItemCheckBox(
                               imagePath: tamanho.imagePath,
-                              value: tamanho.value,
+                              value: tamanho,
                               selectedValue: tamanhoSelecionado,
                               name: tamanho.nome,
                               onChanged: (valor) {
@@ -78,8 +87,9 @@ class _TamanhoFormViewState extends State<TamanhoFormView> {
             ],
           ),
           CustomElevatedButton(onPress: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const PesoFormView()));
+            if (tamanhoSelecionado != null) {
+              _atualizarFluxoFormulario(tamanhoSelecionado!);
+            }
           }),
         ],
       ),

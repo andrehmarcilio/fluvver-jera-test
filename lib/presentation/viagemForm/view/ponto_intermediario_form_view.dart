@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/custom_app_bar.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
-import 'package:muvver_jera_teste/utils/extensions/lugar_auto_complete_extensions.dart';
+import 'package:muvver_jera_teste/utils/extensions/lugar_list_extensions.dart';
 
 import '../../../data/remote/maps/maps_repository.dart';
 import '../../../data/remote/maps/maps_service.dart';

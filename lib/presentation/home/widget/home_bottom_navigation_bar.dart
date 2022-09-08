@@ -21,15 +21,18 @@ class HomeBottomNavigationBar extends StatelessWidget {
             ),
           ]
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const [
-          HomeNavItem(iconData: Icons.home, label: "Início"),
-          HomeNavItem(iconData: Icons.notifications, label: "Notificações"),
-          HomeNavItem(iconData: Icons.chat_bubble, label: "Chat"),
-          HomeNavItem(iconData: Icons.square, label: "Pedidos"),
-          HomeNavItem(iconData: Icons.fire_truck, label: "Entregas")
-        ],
+      child: SafeArea(
+        top: false,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: const [
+            HomeNavItem(iconData: Icons.home, label: "Início"),
+            HomeNavItem(iconData: Icons.notifications, label: "Notificações"),
+            HomeNavItem(iconData: Icons.chat_bubble, label: "Chat"),
+            HomeNavItem(iconData: Icons.square, label: "Pedidos"),
+            HomeNavItem(iconData: Icons.fire_truck, label: "Entregas")
+          ],
+        ),
       ),
     );
   }

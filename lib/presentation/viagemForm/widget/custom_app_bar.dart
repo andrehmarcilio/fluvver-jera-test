@@ -8,7 +8,7 @@ class CustomAppBar extends StatelessWidget {
       this.descricao,
       this.showCancelButton = false,
       this.showCloseButton = false,
-      this.tabBar})
+      this.tabBar, this.popFormFlow})
       : super(key: key);
 
   final String? titulo;
@@ -16,6 +16,7 @@ class CustomAppBar extends StatelessWidget {
   final bool showCloseButton;
   final bool showCancelButton;
   final Widget? tabBar;
+  final VoidCallback? popFormFlow;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,12 @@ class CustomAppBar extends StatelessWidget {
                     child: IconButton(
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.zero,
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {
+                        if(popFormFlow != null) {
+                          popFormFlow!();
+                        }
+                        Navigator.of(context).pop();
+                      },
                       icon: showCloseButton
                           ? Image.asset(
                               "assets/icons/ic_close.png",
@@ -59,7 +65,9 @@ class CustomAppBar extends StatelessWidget {
                     width: 70,
                     child: showCancelButton
                         ? InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).popUntil((route) => route.isFirst);
+                            },
                             child: const Text(
                               "Cancelar",
                               style: TextStyle(

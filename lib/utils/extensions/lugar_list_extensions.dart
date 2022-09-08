@@ -6,4 +6,10 @@ extension SearchLugar on List<Lugar> {
         orElse: () => this[0]);
     return lugar;
   }
+
+  String pegarIdPeloNome(String nome) {
+    final lugar = firstWhere((lugar) => lugar.nome == nome,
+        orElse: () => this[0]);
+    return lugar.id;
+  }
 }

@@ -7,7 +7,7 @@ class CustomTextField extends StatelessWidget {
     required this.label,
     this.leftPadding = 16,
     this.rightPadding = 16,
-    this.icon, this.onTap, this.focusNode
+    this.icon, this.onTap, this.focusNode, this.erro
   }) : super(key: key);
   final TextEditingController controller;
   final String label;
@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? icon;
   final Function()? onTap;
   final FocusNode? focusNode;
+  final String? erro;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class CustomTextField extends StatelessWidget {
         onTap: onTap,
         decoration: InputDecoration(
             prefixIcon: icon,
+            errorText: erro,
             label: Text(label)),
       ),
     );

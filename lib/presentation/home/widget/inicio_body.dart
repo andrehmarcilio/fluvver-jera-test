@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muvver_jera_teste/presentation/home/widget/inicio_feature_item.dart';
-import 'package:muvver_jera_teste/presentation/viagemForm/view/veiculo_form_view.dart';
+
+import '../../viagemForm/viagem_form_flow.dart';
 
 class InicioBody extends StatelessWidget {
   const InicioBody({Key? key}) : super(key: key);
@@ -51,7 +52,7 @@ class InicioBody extends StatelessWidget {
           ),
           InicioFeatureItem(
               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const VeiculoFormView())),
+                  builder: (context) => const ViagemFormFlow())),
               featureImage:
                   Image.asset("assets/images/inicio/delivery-truck.png"),
               titulo: "Viajante",

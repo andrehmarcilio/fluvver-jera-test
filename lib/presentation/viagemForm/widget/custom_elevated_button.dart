@@ -5,7 +5,7 @@ class CustomElevatedButton extends StatelessWidget {
     Key? key, required this.onPress, this.text = "Avançar",
   }) : super(key: key);
 
-  final VoidCallback onPress;
+  final VoidCallback? onPress;
   final String text;
 
   @override

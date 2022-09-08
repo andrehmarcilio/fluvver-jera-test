@@ -1,9 +1,14 @@
+import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:muvver_jera_teste/domain/useCases/auto_completar_campo_cidade_use_case.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
+import 'package:muvver_jera_teste/utils/extensions/lugar_list_extensions.dart';
+import 'package:muvver_jera_teste/utils/extensions/string_extensions.dart';
 
 import '../../../domain/entity/lugar.dart';
+import '../../../domain/entity/rota.dart';
+import '../../../domain/entity/viagem.dart';
 import '../../../utils/customDatePicker/custom_date_picker.dart';
 import '../../../utils/extensions/custom_focus_node.dart';
 import '../bloc/trajetoFormBloc/trajeto_form_cubit.dart';
@@ -15,8 +20,6 @@ import '../widget/custom_app_bar.dart';
 import '../widget/custom_text_field.dart';
 import '../widget/ponto_intermediario_item.dart';
 import '../widget/trajeto_map.dart';
-import 'tamanho_form_view.dart';
-
 
 class TrajetoFormView extends StatefulWidget {
   const TrajetoFormView({Key? key}) : super(key: key);
@@ -32,22 +35,25 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
 
   late TabController tabController;
 
-
-
-
   List<Lugar> lugaresOrigem = [];
   List<Lugar> lugaresDestino = [];
 
-  String pegarIdPeloNome(List<Lugar> lugares, String nome) {
-    final lugar = lugares.firstWhere((lugar) => lugar.nome == nome,
-        orElse: () => lugares[0]);
-    return lugar.id;
-  }
+  Lugar? cidadeOrigem;
+  Lugar? cidadeDestino;
+
+  String? dataPartidaErro;
+  String? dataChegadaErro;
+  String? cidadeOrigemErro;
+  String? cidadeDestinoErro;
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
+  }
+
+  void _atualizarFluxoFormulario(Rota rota) {
+    context.flow<Viagem>().update((viagem) => viagem.copyWith(rota: rota));
   }
 
   @override
@@ -110,6 +116,7 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                                       controller: dataPartidaController,
                                       focusNode: AlwaysDisabledFocusNode(),
                                       label: "Data de partida",
+                                      erro: dataPartidaErro,
                                       rightPadding: 8,
                                       onTap: () async {
                                         final date =
@@ -127,6 +134,7 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                                       focusNode: AlwaysDisabledFocusNode(),
                                       label: "Data de chegada",
                                       leftPadding: 8,
+                                      erro: dataChegadaErro,
                                       onTap: () async {
                                         final date =
                                             await CustomDatePicker.show(
@@ -144,9 +152,12 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                               ),
                               CustomAutoComplete(
                                 label: "Cidade de origem",
+                                erro: cidadeOrigemErro,
                                 onSelected: (value) {
                                   trajetoMapaBloc.add(SelectOrigin(
-                                      pegarIdPeloNome(lugaresOrigem, value)));
+                                      lugaresOrigem.pegarIdPeloNome(value)));
+                                  cidadeOrigem =
+                                      lugaresOrigem.pegarLugarPeloNome(value);
                                 },
                                 optionsBuilder: (textEdt) async {
                                   try {
@@ -162,35 +173,37 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                                 height: 15,
                               ),
                               BlocConsumer<TrajetoFormCubit, List<Lugar>>(
-
-                                listener: (context, state) {
-                                    trajetoMapaBloc.add(UpdateWayPoints(state));
-                                },
-                                builder: (context, state) {
-                                  return ListView.builder(
+                                  listener: (context, state) {
+                                trajetoMapaBloc.add(UpdateWayPoints(state));
+                              }, builder: (context, state) {
+                                return ListView.builder(
                                     padding: EdgeInsets.zero,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: state.length,
-                                      itemBuilder: (context, position) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(left: 16.0),
-                                          child: PontoIntermediarioItem(
-                                              nome: state[position].nome,
-                                              onPressed: () => trajetoFormCubit.removerLugar(position)
-                                              ),
-                                        );
-                                      });
-                                }
-                              ),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: state.length,
+                                    itemBuilder: (context, position) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 16.0),
+                                        child: PontoIntermediarioItem(
+                                            nome: state[position].nome,
+                                            onPressed: () => trajetoFormCubit
+                                                .removerLugar(position)),
+                                      );
+                                    });
+                              }),
                               const SizedBox(
                                 height: 15,
                               ),
                               CustomAutoComplete(
                                 label: "Cidade de destino",
+                                erro: cidadeDestinoErro,
                                 onSelected: (value) {
                                   trajetoMapaBloc.add(SelectDestination(
-                                      pegarIdPeloNome(lugaresDestino, value)));
+                                      lugaresDestino.pegarIdPeloNome(value)));
+                                  cidadeDestino =
+                                      lugaresDestino.pegarLugarPeloNome(value);
                                 },
                                 optionsBuilder: (textEdt) async {
                                   try {
@@ -215,11 +228,36 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
               ),
             ],
           ),
-          CustomElevatedButton(
-              onPress: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const TamanhoFormView()))),
+          CustomElevatedButton(onPress: () {
+            final bool camposValidos = _verificarCampos();
+            if (camposValidos) {
+              _atualizarFluxoFormulario(Rota(
+                  cidadeDestino: cidadeDestino!,
+                  cidadeOrigem: cidadeOrigem!,
+                  dataPartida: dataPartidaController.text.transformInDatetime(),
+                  dataChegada: dataChegadaController.text.transformInDatetime(),
+                  pontosIntermediarios: trajetoMapaBloc.wayPoints));
+            }
+          }),
         ],
       ),
     );
+  }
+
+  bool _verificarCampos() {
+    setState(() {
+      dataPartidaErro =
+          dataPartidaController.text.isEmpty ? "Digite algum valor" : null;
+      dataChegadaErro =
+          dataChegadaController.text.isEmpty ? "Digite algum valor" : null;
+      cidadeOrigemErro =
+          cidadeOrigem == null ? "Selecione algum valor da lista" : null;
+      cidadeDestinoErro =
+          cidadeDestino == null ? "Selecione algum valor da lista" : null;
+    });
+    return dataPartidaErro == null &&
+        dataChegadaErro == null &&
+        cidadeOrigemErro == null &&
+        cidadeDestinoErro == null;
   }
 }

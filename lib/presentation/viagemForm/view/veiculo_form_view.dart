@@ -1,15 +1,17 @@
+import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:muvver_jera_teste/presentation/viagemForm/view/trajeto_form_view.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/custom_app_bar.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/custom_divider.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
 
 import '../../../domain/entity/veiculo.dart';
+import '../../../domain/entity/viagem.dart';
 import '../widget/custom_elevated_button.dart';
 import '../widget/custom_item_check_box.dart';
 
 class VeiculoFormView extends StatefulWidget {
-  const VeiculoFormView({Key? key}) : super(key: key);
+  const VeiculoFormView({Key? key, required this.popFormFlow}) : super(key: key);
+  final VoidCallback popFormFlow;
 
   @override
   State<VeiculoFormView> createState() => _VeiculoFormViewState();
@@ -17,7 +19,13 @@ class VeiculoFormView extends StatefulWidget {
 
 class _VeiculoFormViewState extends State<VeiculoFormView> {
   final List<Veiculo> veiculos = Veiculo.values;
-  String? veiculoSelecionado;
+  Veiculo? veiculoSelecionado;
+
+  void atualizarFluxoFormulario() {
+    context.flow<Viagem>().update((viagem) =>
+        viagem.copyWith(
+            veiculo: veiculoSelecionado));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +37,11 @@ class _VeiculoFormViewState extends State<VeiculoFormView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomAppBar(
+               CustomAppBar(
                 titulo: "Viajante",
                 descricao: "Qual será o meio de transporte da sua viagem?",
                 showCloseButton: true,
+                popFormFlow: widget.popFormFlow,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -40,7 +49,7 @@ class _VeiculoFormViewState extends State<VeiculoFormView> {
                     top: false,
                     left: false,
                     right: false,
-                    minimum: const EdgeInsets.only(bottom: 80),
+                    minimum: const EdgeInsets.only(bottom: 100),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -49,6 +58,7 @@ class _VeiculoFormViewState extends State<VeiculoFormView> {
                         ),
                         const TituloText(titulo: "Transporte"),
                         ListView.separated(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
                           itemCount: veiculos.length,
@@ -56,7 +66,7 @@ class _VeiculoFormViewState extends State<VeiculoFormView> {
                             final veiculo = veiculos[position];
                             return CustomItemCheckBox(
                               imagePath: veiculo.imagePath,
-                              value: veiculo.value,
+                              value: veiculo,
                               selectedValue: veiculoSelecionado,
                               name: veiculo.nome,
                               onChanged: (valor) {
@@ -77,10 +87,9 @@ class _VeiculoFormViewState extends State<VeiculoFormView> {
               ),
             ],
           ),
-          CustomElevatedButton(onPress: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const TrajetoFormView()));
-          }),
+          CustomElevatedButton(onPress: veiculoSelecionado != null ? () {
+            atualizarFluxoFormulario();
+          } : null),
         ],
       ),
     );

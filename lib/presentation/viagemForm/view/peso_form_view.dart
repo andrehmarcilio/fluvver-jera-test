@@ -1,12 +1,14 @@
+import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/custom_app_bar.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/custom_divider.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
 
 import '../../../domain/entity/peso.dart';
+import '../../../domain/entity/viagem.dart';
+import '../../../domain/entity/volume.dart';
 import '../widget/custom_elevated_button.dart';
 import '../widget/custom_item_check_box.dart';
-import 'preco_form_view.dart';
 
 class PesoFormView extends StatefulWidget {
   const PesoFormView({Key? key}) : super(key: key);
@@ -17,7 +19,14 @@ class PesoFormView extends StatefulWidget {
 
 class _PesoFormViewState extends State<PesoFormView> {
   final List<Peso> pesos = Peso.values;
-  String? pesoSelecionado;
+  Peso? pesoSelecionado;
+
+  void _atualizarFluxoFormulario(Peso peso) {
+    context.flow<Viagem>().update((viagem) =>
+        viagem.copyWith(
+            volume: viagem.volume?.copyWith(peso: peso) ??
+                Volume(peso: peso)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +65,7 @@ class _PesoFormViewState extends State<PesoFormView> {
                             final peso = pesos[position];
                             return CustomItemCheckBox(
                               imagePath: peso.imagePath,
-                              value: peso.value,
+                              value: peso,
                               selectedValue: pesoSelecionado,
                               name: peso.nome,
                               onChanged: (valor) {
@@ -78,8 +87,10 @@ class _PesoFormViewState extends State<PesoFormView> {
             ],
           ),
           CustomElevatedButton(onPress: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const PrecoFormView()));
+            if(pesoSelecionado != null) {
+              _atualizarFluxoFormulario(pesoSelecionado!);
+            }
+
           }),
         ],
       ),
