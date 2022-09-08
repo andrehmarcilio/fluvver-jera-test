@@ -16,7 +16,7 @@ class TrajetoMap extends StatefulWidget {
 class TrajetoMapState extends State<TrajetoMap> {
   final Completer<GoogleMapController> _controller = Completer();
   final Set<Polyline> _polylines = {};
-  
+
   int i = 0;
 
   String _getId() => "polyline${i++}";
@@ -28,25 +28,30 @@ class TrajetoMapState extends State<TrajetoMap> {
         if (state is TrajetoMapaSuccess) {
           _polylines.clear();
           _polylines.add(Polyline(
-              polylineId: PolylineId(_getId()),
-              width: 3,
-              color: Colors.green,
-              points: state.directions.polylineDecoded.map((p) => LatLng(p.latitude, p.longitude)).toList(),
+            polylineId: PolylineId(_getId()),
+            width: 3,
+            color: Colors.green,
+            points: state.directions.polylineDecoded
+                .map((p) => LatLng(p.latitude, p.longitude))
+                .toList(),
           ));
           return GoogleMap(
             mapType: MapType.normal,
             initialCameraPosition: CameraPosition(
-              target: LatLng( state.directions.startLocation.longitude,  state.directions.startLocation.latitude ),
+              target: LatLng(state.directions.startLocation.longitude,
+                  state.directions.startLocation.latitude),
               zoom: 14.4746,
             ),
             polylines: _polylines,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
-              controller.animateCamera(
-                CameraUpdate.newLatLngBounds(LatLngBounds(
-                    southwest: LatLng(state.directions.boundsSw.latitude, state.directions.boundsSw.longitude),
-                    northeast: LatLng(state.directions.boundsNe.latitude, state.directions.boundsNe.longitude)), 25)
-              );
+              controller.animateCamera(CameraUpdate.newLatLngBounds(
+                  LatLngBounds(
+                      southwest: LatLng(state.directions.boundsSw.latitude,
+                          state.directions.boundsSw.longitude),
+                      northeast: LatLng(state.directions.boundsNe.latitude,
+                          state.directions.boundsNe.longitude)),
+                  16));
             },
           );
         }

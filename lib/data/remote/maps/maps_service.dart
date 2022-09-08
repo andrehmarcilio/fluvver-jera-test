@@ -11,9 +11,9 @@ const baseUrl = "https://maps.googleapis.com/maps/api";
 
 class MapsService {
   Future<List<LugarAutoComplete>> getAutoCompletePlaces(String text) async {
-    final reponse = await http.get(
-        Uri.parse("$baseUrl/place/autocomplete/json?input=$text&key=$API_KEY"));
-    final json = jsonDecode(reponse.body) as Map;
+    final response = await http.get(Uri.parse(
+        "$baseUrl/place/autocomplete/json?input=$text&components=country:br&language=pt_BR&key=$API_KEY"));
+    final json = jsonDecode(response.body) as Map;
     if (json['status'] == 'OK') {
       final lugares = (json['predictions'] as List)
           .map((json) => LugarAutoComplete.fromJson(json))
@@ -31,19 +31,16 @@ class MapsService {
       if (wayPoints != null) {
         String wayPointsString = wayPoints.formatWayPoints();
         url =
-        "$baseUrl/directions/json?origin=place_id:$originId&destination=place_id:$destinationId&waypoints=$wayPointsString&key=$API_KEY";
+            "$baseUrl/directions/json?origin=place_id:$originId&destination=place_id:$destinationId&waypoints=$wayPointsString&key=$API_KEY";
       } else {
         url =
-        "$baseUrl/directions/json?origin=place_id:$originId&destination=place_id:$destinationId&key=$API_KEY";
+            "$baseUrl/directions/json?origin=place_id:$originId&destination=place_id:$destinationId&key=$API_KEY";
       }
-      final reponse = await http.get(Uri.parse(url));
-      final json = jsonDecode(reponse.body) as Map;
+      final response = await http.get(Uri.parse(url));
+      final json = jsonDecode(response.body) as Map;
       return Directions.fromJson(json);
     } catch (e) {
       throw Exception();
     }
-
-
-
   }
 }
