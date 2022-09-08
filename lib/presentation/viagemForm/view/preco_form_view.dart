@@ -13,8 +13,10 @@ class PrecoFormView extends StatefulWidget {
 }
 
 class _PrecoFormViewState extends State<PrecoFormView> {
+  double value = 100.0;
 
-  final _precoController = TextEditingController(text: "100,00");
+  final _precoController = TextEditingController(text: "100.00");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,23 +44,42 @@ class _PrecoFormViewState extends State<PrecoFormView> {
                     const SizedBox(
                       height: 24,
                     ),
-                    Container(
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "Valor sugerido",
-                        style: TextStyle(fontSize: 12, color: Color(0xFF808080)),
-                      ),
+                    Slider(
+                      max: 700,
+                      value: value,
+                      onChanged: (value) {
+                        setState(() {
+                          this.value = value;
+                          _precoController.text = value.toStringAsFixed(2);
+                        });
+                      },
                     ),
-                    Slider(value: 0.5, onChanged: (value) {},),
                     Center(
                       child: IntrinsicWidth(
                         child: TextField(
                           controller: _precoController,
+                          onChanged: (value) {
+                            final newValue = double.parse(value);
+                            if (newValue > 1000) {
+                              setState(() {
+                                _precoController.text = "1000.00";
+                                this.value = 1000;
+                              });
+                            } else  if (newValue < 0) {
+                              setState(() {
+                                _precoController.text = "0";
+                                this.value = 0;
+                              });
+                            } else {
+                              setState(() {
+                                this.value = newValue;
+                              });
+                            }
+                          },
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
-                            prefix: Text("R\$ "),
-                            border: UnderlineInputBorder()
-                          ),
+                              prefix: Text("R\$ "),
+                              border: UnderlineInputBorder()),
                         ),
                       ),
                     ),
@@ -70,18 +91,18 @@ class _PrecoFormViewState extends State<PrecoFormView> {
                       alignment: Alignment.center,
                       child: const Text(
                         "Clique no valor acima, para um preço mais específico.",
-                        style: TextStyle(fontSize: 12, color: Color(0xFF737373)),
+                        style:
+                            TextStyle(fontSize: 12, color: Color(0xFF737373)),
                       ),
                     ),
-
                   ],
                 ),
               )),
             ],
           ),
           CustomElevatedButton(onPress: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const ViagemCriadaView()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const ViagemCriadaView()));
           }),
         ],
       ),
