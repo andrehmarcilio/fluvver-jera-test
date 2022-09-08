@@ -29,8 +29,8 @@ class HomeBottomNavigationBar extends StatelessWidget {
             HomeNavItem(iconData: Icons.home, label: "Início"),
             HomeNavItem(iconData: Icons.notifications, label: "Notificações"),
             HomeNavItem(iconData: Icons.chat_bubble, label: "Chat"),
-            HomeNavItem(iconData: Icons.square, label: "Pedidos"),
-            HomeNavItem(iconData: Icons.fire_truck, label: "Entregas")
+            HomeNavItem(iconData: Icons.layers, label: "Pedidos"),
+            HomeNavItem(iconData: Icons.local_shipping, label: "Entregas")
           ],
         ),
       ),
