@@ -13,7 +13,9 @@ class SelectDestination extends TrajetoEvents {
 }
 
 class UpdateWayPoints extends TrajetoEvents {
- List<String>? wayPointId;
- UpdateWayPoints(this.wayPointId);
+ List<LugarAutoComplete> wayPoints;
+ UpdateWayPoints(this.wayPoints);
 }
+
+
 

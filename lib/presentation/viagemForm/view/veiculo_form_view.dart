@@ -79,7 +79,7 @@ class _VeiculoFormViewState extends State<VeiculoFormView> {
           ),
           CustomElevatedButton(onPress: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const TrajetoContainer()));
+                MaterialPageRoute(builder: (context) => const TrajetoFormView()));
           }),
         ],
       ),
