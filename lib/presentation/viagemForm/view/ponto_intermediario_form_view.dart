@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/custom_app_bar.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
 import 'package:muvver_jera_teste/utils/extensions/lugar_list_extensions.dart';
@@ -9,14 +8,13 @@ import '../../../data/remote/maps/maps_service.dart';
 import '../../../domain/entity/lugar.dart';
 import '../../../domain/useCases/auto_completar_campo_cidade_use_case.dart';
 import '../bloc/trajetoFormBloc/trajeto_form_cubit.dart';
-import '../bloc/trajetoMapaBloc/trajeto_bloc.dart';
 import '../widget/custom_auto_complete_widget.dart';
 import '../widget/custom_elevated_button.dart';
 import '../widget/ponto_intermediario_item.dart';
 
 class PontoIntermediarioFormView extends StatefulWidget {
-  const PontoIntermediarioFormView({Key? key}) : super(key: key);
-
+  const PontoIntermediarioFormView({Key? key, required this.trajetoFormCubit}) : super(key: key);
+  final TrajetoFormCubit trajetoFormCubit;
   @override
   State<PontoIntermediarioFormView> createState() =>
       _PontoIntermediarioFormViewState();
@@ -32,7 +30,6 @@ class _PontoIntermediarioFormViewState
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<TrajetoFormCubit>();
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -129,7 +126,7 @@ class _PontoIntermediarioFormViewState
           ),
           CustomElevatedButton(
             onPress: () {
-              cubit.adicionarLugar(lugaresSelecionados);
+              widget.trajetoFormCubit.adicionarLugar(lugaresSelecionados);
               Navigator.of(context).pop();
             },
             text: "Confirmar",

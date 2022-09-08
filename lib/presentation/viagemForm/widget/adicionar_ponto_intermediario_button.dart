@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:muvver_jera_teste/presentation/viagemForm/bloc/trajetoFormBloc/trajeto_form_cubit.dart';
+import 'package:provider/provider.dart';
 
 import '../view/ponto_intermediario_form_view.dart';
 
 class AdicionarPontoButton extends StatelessWidget {
-  const AdicionarPontoButton({
-    Key? key,
-  }) : super(key: key);
+  const AdicionarPontoButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<TrajetoFormCubit>();
     return InkWell(
-      onTap: () =>
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const PontoIntermediarioFormView())),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              PontoIntermediarioFormView(trajetoFormCubit: cubit))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,

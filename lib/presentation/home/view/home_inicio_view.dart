@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widget/inicio_body.dart';
-import '../widget/inicio_top.dart';
+import '../widget/inicio_app_bar.dart';
 
 class HomeInicioView extends StatelessWidget {
   const HomeInicioView({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class HomeInicioView extends StatelessWidget {
         child: Column(
           children: const [
             SizedBox(height: 10),
-            InicioTop(),
+            InicioAppBar(),
             SizedBox(height: 56),
             InicioBody()
           ],

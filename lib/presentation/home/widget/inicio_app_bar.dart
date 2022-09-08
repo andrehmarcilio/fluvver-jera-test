@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class InicioTop extends StatelessWidget {
-  const InicioTop({Key? key}) : super(key: key);
+class InicioAppBar extends StatelessWidget {
+  const InicioAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class InicioTop extends StatelessWidget {
           width: 80,
           height: 15,
     ),
-        Container(width: 32, height: 32, color: Colors.red,
+        Container(width: 32, height: 32, color: Colors.black,
         child: Image.asset("assets/images/fotoperfil.jpeg", fit: BoxFit.cover,),)
       ],
     ),);

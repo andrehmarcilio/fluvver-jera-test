@@ -37,13 +37,6 @@ class MyApp extends StatelessWidget {
         Provider(
           create: (context) => BuscarRotaTrajetoUseCase(context.read()),
         ),
-        Provider(
-          create: (context) => TrajetoMapaBloc(context.read()),
-        ),
-        Provider(
-          create: (_) => TrajetoFormCubit(),
-        )
-
       ],
       child: MaterialApp(
         localizationsDelegates: const [

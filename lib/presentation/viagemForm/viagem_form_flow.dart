@@ -29,7 +29,7 @@ class ViagemFormFlow extends StatelessWidget {
           )),
           if (viagem.veiculo != null)
             MaterialPage(
-                child: TrajetoFormView(
+                child: TrajetoFormContainer(
               popFormFlow: () => Navigator.of(context).pop(),
             )),
           if (viagem.rota != null)

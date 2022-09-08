@@ -5,6 +5,7 @@ import 'package:muvver_jera_teste/domain/useCases/auto_completar_campo_cidade_us
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
 import 'package:muvver_jera_teste/utils/extensions/lugar_list_extensions.dart';
 import 'package:muvver_jera_teste/utils/extensions/string_extensions.dart';
+import 'package:provider/provider.dart';
 
 import '../../../domain/entity/lugar.dart';
 import '../../../domain/entity/rota.dart';
@@ -21,9 +22,25 @@ import '../widget/custom_text_field.dart';
 import '../widget/ponto_intermediario_item.dart';
 import '../widget/trajeto_map.dart';
 
+class TrajetoFormContainer extends StatelessWidget {
+  const TrajetoFormContainer({Key? key, required this.popFormFlow}) : super(key: key);
+  final VoidCallback popFormFlow;
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider(create: (context) => TrajetoFormCubit()),
+        Provider(create: (context) => TrajetoMapaBloc(context.read())),
+      ],
+      child:  TrajetoFormView(popFormFlow: popFormFlow),
+    );
+  }
+}
+
 class TrajetoFormView extends StatefulWidget {
-  const TrajetoFormView({Key? key,   this.popFormFlow}) : super(key: key);
+  const TrajetoFormView({Key? key, this.popFormFlow}) : super(key: key);
   final VoidCallback? popFormFlow;
+
   @override
   State<TrajetoFormView> createState() => _TrajetoFormViewState();
 }
@@ -219,7 +236,7 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                               const SizedBox(
                                 height: 28,
                               ),
-                              const AdicionarPontoButton()
+                              AdicionarPontoButton()
                             ],
                           ),
                         ),
@@ -256,9 +273,19 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
       cidadeDestinoErro =
           cidadeDestino == null ? "Selecione algum valor da lista" : null;
     });
-    return dataPartidaErro == null &&
+    final errosNulos = dataPartidaErro == null &&
         dataChegadaErro == null &&
         cidadeOrigemErro == null &&
         cidadeDestinoErro == null;
+
+    setState(() {
+      dataPartidaErro = dataPartidaController.text
+              .transformInDatetime()
+              .isAfter(dataChegadaController.text.transformInDatetime())
+          ? "Partida após chegada?"
+          : null;
+    });
+
+    return errosNulos && dataPartidaErro == null;
   }
 }
