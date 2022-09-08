@@ -1,3 +1,5 @@
+import 'package:muvver_jera_teste/domain/entity/directions.dart';
+
 import '../../../domain/entity/lugar.dart';
 import '../../../domain/entity/lugar_auto_complete.dart';
 import '../../../domain/repository/imaps_repository.dart';
@@ -14,8 +16,10 @@ class MapsRepository extends IMapsRepository {
   }
 
   @override
-  Future<Lugar> getPlaceInfo(String id) {
-    throw UnimplementedError();
+  Future<Directions> getDirections(String originId, String destinationId, List<String>? wayPoints) async {
+    return mapsService.getDirections(originId, destinationId, wayPoints);
   }
+
+
 
 }

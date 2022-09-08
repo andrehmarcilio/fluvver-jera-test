@@ -17,4 +17,12 @@ void main() {
     // Assert
     expect(listaDeSugestoes, isA<List<LugarAutoComplete>>());
   });
+
+  test("deve retornar as direções quando chamar a funcao getDirections", () {
+
+  });
 }
+
+
+
+

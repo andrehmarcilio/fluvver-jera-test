@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:muvver_jera_teste/data/remote/maps/maps_repository.dart';
 import 'package:muvver_jera_teste/data/remote/maps/maps_service.dart';
 import 'package:muvver_jera_teste/domain/useCases/auto_completar_campo_cidade_use_case.dart';
+import 'package:muvver_jera_teste/domain/useCases/buscar_rota_do_trajeto_use_case.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
 
 import '../../../domain/entity/lugar_auto_complete.dart';
+import '../bloc/trajetoMapaBloc/trajeto_bloc.dart';
 import '../widget/custom_auto_complete_widget.dart';
 import '../widget/custom_elevated_button.dart';
 import '../widget/custom_app_bar.dart';
@@ -12,6 +15,18 @@ import '../widget/custom_text_field.dart';
 import '../widget/trajeto_map.dart';
 import 'ponto_intermediario_form_view.dart';
 import 'tamanho_form_view.dart';
+
+class TrajetoContainer extends StatelessWidget {
+  const TrajetoContainer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) => TrajetoMapaBloc(
+            BuscarRotaTrajetoUseCase(MapsRepository(MapsService()))),
+    child: const TrajetoFormView(),);
+  }
+}
 
 class TrajetoFormView extends StatefulWidget {
   const TrajetoFormView({Key? key}) : super(key: key);
@@ -34,6 +49,11 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
   List<LugarAutoComplete> lugaresOrigem = [];
   List<LugarAutoComplete> lugaresDestino = [];
 
+  String pegarIdPeloNome(List<LugarAutoComplete> lugares, String nome) {
+    final lugar = lugares.firstWhere((lugar) => lugar.nome == nome, orElse: () => lugares[0]);
+    return lugar.id;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -42,6 +62,7 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<TrajetoMapaBloc>();
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -55,6 +76,7 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                   descricao: "Qual o trajeto da sua viagem?",
                   showCancelButton: true,
                   tabBar: TabBar(
+
                     indicatorColor: Colors.white,
                     controller: tabController,
                     tabs: const [
@@ -67,7 +89,9 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                     ],
                   )),
               Expanded(
-                child: TabBarView(controller: tabController, children: [
+                child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: tabController, children: [
                   SingleChildScrollView(
                     child: SafeArea(
                       top: false,
@@ -108,7 +132,9 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                           ),
                           CustomAutoComplete(
                             label: "Cidade de origem",
-                            onSelected: (value) {},
+                            onSelected: (value) {
+                              bloc.add(SelectOrigin(pegarIdPeloNome(lugaresOrigem, value)));
+                            },
                             optionsBuilder: (textEdt) async {
                               try {
                                 lugaresOrigem =
@@ -124,7 +150,9 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                           ),
                           CustomAutoComplete(
                             label: "Cidade de destino",
-                            onSelected: (value) {},
+                            onSelected: (value) {
+                              bloc.add(SelectDestination(pegarIdPeloNome(lugaresDestino, value)));
+                            },
                             optionsBuilder: (textEdt) async {
                               try {
                                 lugaresDestino =
@@ -143,7 +171,7 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                       ),
                     ),
                   ),
-                  const MapSample()
+                  const TrajetoMap()
                 ]),
               ),
             ],
