@@ -4,19 +4,19 @@ import 'package:http/http.dart' as http;
 import 'package:muvver_jera_teste/utils/extensions/string_list_extensions.dart';
 
 import '../../../domain/entity/directions.dart';
-import '../../../domain/entity/lugar_auto_complete.dart';
+import '../../../domain/entity/lugar.dart';
 
 const API_KEY = 'AIzaSyBDVfV5Cau-P6vzVjAJBaCZL4WnTx90TDg';
 const baseUrl = "https://maps.googleapis.com/maps/api";
 
 class MapsService {
-  Future<List<LugarAutoComplete>> getAutoCompletePlaces(String text) async {
+  Future<List<Lugar>> getAutoCompletePlaces(String text) async {
     final response = await http.get(Uri.parse(
         "$baseUrl/place/autocomplete/json?input=$text&components=country:br&language=pt_BR&key=$API_KEY"));
     final json = jsonDecode(response.body) as Map;
     if (json['status'] == 'OK') {
       final lugares = (json['predictions'] as List)
-          .map((json) => LugarAutoComplete.fromJson(json))
+          .map((json) => Lugar.fromJson(json))
           .toList();
       return lugares;
     } else {

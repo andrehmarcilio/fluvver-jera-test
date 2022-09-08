@@ -1,4 +1,4 @@
-import '../entity/lugar_auto_complete.dart';
+import '../entity/lugar.dart';
 import '../repository/imaps_repository.dart';
 
 class AutoCompletarCampoCidadeUseCase {
@@ -6,6 +6,6 @@ class AutoCompletarCampoCidadeUseCase {
 
   AutoCompletarCampoCidadeUseCase(this.mapsRepository);
 
-  Future<List<LugarAutoComplete>> call(String text) =>
+  Future<List<Lugar>> call(String text) =>
       mapsRepository.getAutoCompletePlaces(text);
 }

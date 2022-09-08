@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:muvver_jera_teste/domain/useCases/auto_completar_campo_cidade_use_case.dart';
 import 'package:muvver_jera_teste/presentation/viagemForm/widget/titulo_text.dart';
 
-import '../../../domain/entity/lugar_auto_complete.dart';
+import '../../../domain/entity/lugar.dart';
 import '../../../utils/customDatePicker/custom_date_picker.dart';
 import '../../../utils/extensions/custom_focus_node.dart';
 import '../bloc/trajetoFormBloc/trajeto_form_cubit.dart';
@@ -35,10 +35,10 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
 
 
 
-  List<LugarAutoComplete> lugaresOrigem = [];
-  List<LugarAutoComplete> lugaresDestino = [];
+  List<Lugar> lugaresOrigem = [];
+  List<Lugar> lugaresDestino = [];
 
-  String pegarIdPeloNome(List<LugarAutoComplete> lugares, String nome) {
+  String pegarIdPeloNome(List<Lugar> lugares, String nome) {
     final lugar = lugares.firstWhere((lugar) => lugar.nome == nome,
         orElse: () => lugares[0]);
     return lugar.id;
@@ -161,7 +161,7 @@ class _TrajetoFormViewState extends State<TrajetoFormView>
                               const SizedBox(
                                 height: 15,
                               ),
-                              BlocConsumer<TrajetoFormCubit, List<LugarAutoComplete>>(
+                              BlocConsumer<TrajetoFormCubit, List<Lugar>>(
 
                                 listener: (context, state) {
                                     trajetoMapaBloc.add(UpdateWayPoints(state));

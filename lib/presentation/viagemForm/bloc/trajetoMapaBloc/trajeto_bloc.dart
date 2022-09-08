@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain/entity/directions.dart';
-import '../../../../domain/entity/lugar_auto_complete.dart';
+import '../../../../domain/entity/lugar.dart';
 import '../../../../domain/useCases/buscar_rota_do_trajeto_use_case.dart';
 
 part 'trajeto_events.dart';
@@ -14,7 +14,7 @@ class TrajetoMapaBloc extends Bloc<TrajetoEvents, TrajetoMapaStates> {
   BuscarRotaTrajetoUseCase buscarRotaTrajetoUseCase;
   String? originId;
   String? destinationId;
-  List<LugarAutoComplete> wayPoints = [];
+  List<Lugar> wayPoints = [];
 
   TrajetoMapaBloc(this.buscarRotaTrajetoUseCase)
       : super(TrajetoMapaInitialState()) {

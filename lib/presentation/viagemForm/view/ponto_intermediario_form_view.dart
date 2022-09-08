@@ -6,7 +6,7 @@ import 'package:muvver_jera_teste/utils/extensions/lugar_auto_complete_extension
 
 import '../../../data/remote/maps/maps_repository.dart';
 import '../../../data/remote/maps/maps_service.dart';
-import '../../../domain/entity/lugar_auto_complete.dart';
+import '../../../domain/entity/lugar.dart';
 import '../../../domain/useCases/auto_completar_campo_cidade_use_case.dart';
 import '../bloc/trajetoFormBloc/trajeto_form_cubit.dart';
 import '../bloc/trajetoMapaBloc/trajeto_bloc.dart';
@@ -24,8 +24,8 @@ class PontoIntermediarioFormView extends StatefulWidget {
 
 class _PontoIntermediarioFormViewState
     extends State<PontoIntermediarioFormView> {
-  List<LugarAutoComplete> lugares = [];
-  List<LugarAutoComplete> lugaresSelecionados = [];
+  List<Lugar> lugares = [];
+  List<Lugar> lugaresSelecionados = [];
 
   final autoCompletar =
       AutoCompletarCampoCidadeUseCase(MapsRepository(MapsService()));

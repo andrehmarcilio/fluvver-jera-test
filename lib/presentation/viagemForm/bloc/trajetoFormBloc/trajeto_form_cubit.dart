@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/entity/lugar_auto_complete.dart';
+import '../../../../domain/entity/lugar.dart';
 
-class TrajetoFormCubit extends Cubit<List<LugarAutoComplete>> {
+class TrajetoFormCubit extends Cubit<List<Lugar>> {
   TrajetoFormCubit() : super([]);
 
-  adicionarLugar(List<LugarAutoComplete> lugares) {
+  adicionarLugar(List<Lugar> lugares) {
    state.addAll(lugares);
    emit(state.toList());
   }

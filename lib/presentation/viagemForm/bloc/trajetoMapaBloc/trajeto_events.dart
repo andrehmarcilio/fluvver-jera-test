@@ -13,7 +13,7 @@ class SelectDestination extends TrajetoEvents {
 }
 
 class UpdateWayPoints extends TrajetoEvents {
- List<LugarAutoComplete> wayPoints;
+ List<Lugar> wayPoints;
  UpdateWayPoints(this.wayPoints);
 }
 

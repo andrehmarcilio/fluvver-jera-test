@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:muvver_jera_teste/data/remote/maps/maps_service.dart';
-import 'package:muvver_jera_teste/domain/entity/lugar_auto_complete.dart';
+import 'package:muvver_jera_teste/domain/entity/lugar.dart';
 
 
 
@@ -15,7 +15,7 @@ void main() {
     final listaDeSugestoes = await service.getAutoCompletePlaces("Cuiab");
 
     // Assert
-    expect(listaDeSugestoes, isA<List<LugarAutoComplete>>());
+    expect(listaDeSugestoes, isA<List<Lugar>>());
   });
 
   test("deve retornar as direções quando chamar a funcao getDirections", () {
