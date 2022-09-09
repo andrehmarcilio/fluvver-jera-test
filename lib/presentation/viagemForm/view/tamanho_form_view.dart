@@ -70,6 +70,7 @@ class _TamanhoFormViewState extends State<TamanhoFormView> {
                               value: tamanho,
                               selectedValue: tamanhoSelecionado,
                               name: tamanho.nome,
+                              subTitulo: tamanho.dimensoes,
                               onChanged: (valor) {
                                 setState(() {
                                   tamanhoSelecionado = valor;

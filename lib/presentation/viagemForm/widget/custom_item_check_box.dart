@@ -7,12 +7,14 @@ class CustomItemCheckBox extends StatelessWidget {
       required this.value,
       required this.onChanged,
       required this.imagePath,
-      required this.name})
+      required this.name,
+      this.subTitulo})
       : super(key: key);
   final dynamic selectedValue;
   final dynamic value;
   final String imagePath;
   final String name;
+  final String? subTitulo;
   final Function(dynamic) onChanged;
 
   @override
@@ -38,10 +40,21 @@ class CustomItemCheckBox extends StatelessWidget {
                 const SizedBox(
                   width: 16,
                 ),
-                Text(
-                  name,
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w700),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(
+                          fontSize: 12, fontWeight: FontWeight.w700),
+                    ),
+                    subTitulo == null ? const SizedBox.shrink() :
+                    Text(
+                      subTitulo!,
+                      style: const TextStyle(
+                        fontSize: 12, color: Color.fromRGBO(34, 34, 34, 0.32)),)
+                  ],
                 )
               ],
             ),

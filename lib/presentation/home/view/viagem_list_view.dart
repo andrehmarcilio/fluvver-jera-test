@@ -40,6 +40,7 @@ class ViagemListView extends StatelessWidget {
                     ),
                     const TituloText(titulo: "Viagens"),
                     ListView.separated(
+                      reverse: true,
                       shrinkWrap: true,
                       physics: const ScrollPhysics(),
                       itemCount: viagens.length,
