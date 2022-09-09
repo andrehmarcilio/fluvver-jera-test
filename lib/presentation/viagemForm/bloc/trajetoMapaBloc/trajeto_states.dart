@@ -8,7 +8,8 @@ class TrajetoMapaLoading extends TrajetoMapaStates {}
 
 class TrajetoMapaSuccess extends TrajetoMapaStates {
   Directions directions;
-  TrajetoMapaSuccess(this.directions);
+  List<BitmapDescriptor> bitMaps;
+  TrajetoMapaSuccess(this.directions, this.bitMaps);
 }
 
 class TrajetoMapaError extends TrajetoMapaStates {

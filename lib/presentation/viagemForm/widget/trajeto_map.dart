@@ -19,7 +19,26 @@ class TrajetoMapState extends State<TrajetoMap> {
 
   int i = 0;
 
+  Set<Marker> getMarkers(LatLng startPos, LatLng endPos,
+      BitmapDescriptor iconPartida, BitmapDescriptor iconDestino) {
+    return {
+      Marker(
+        markerId: const MarkerId("origin"),
+        position: startPos,
+        icon: iconPartida,
+        anchor: const Offset(0.5, 0.5)
+      ),
+      Marker(
+        markerId: const MarkerId("destiny"),
+        position: endPos,
+        icon: iconDestino,
+          anchor: const Offset(0.5, 0.5)
+      )
+    };
+  }
+
   String _getId() => "polyline${i++}";
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +55,20 @@ class TrajetoMapState extends State<TrajetoMap> {
                 .toList(),
           ));
           return GoogleMap(
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
             mapType: MapType.normal,
             initialCameraPosition: CameraPosition(
-              target: LatLng(state.directions.startLocation.longitude,
-                  state.directions.startLocation.latitude),
-              zoom: 14.4746,
+              target: LatLng(state.directions.startLocation.latitude,
+                  state.directions.startLocation.longitude),
+              zoom: 10.4746,
             ),
+            markers: getMarkers(
+                LatLng(state.directions.startLocation.latitude,
+                    state.directions.startLocation.longitude),
+                LatLng(state.directions.endLocation.latitude,
+                    state.directions.endLocation.longitude),
+            state.bitMaps[0], state.bitMaps[1]),
             polylines: _polylines,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);

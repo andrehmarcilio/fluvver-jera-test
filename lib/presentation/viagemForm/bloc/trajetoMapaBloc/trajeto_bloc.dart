@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../domain/entity/directions.dart';
 import '../../../../domain/entity/lugar.dart';
@@ -30,7 +34,7 @@ class TrajetoMapaBloc extends Bloc<TrajetoEvents, TrajetoMapaStates> {
       emit(TrajetoMapaLoading());
       try {
         final directions = await _buscarDirecoes(originId!, destinationId!);
-        emit(TrajetoMapaSuccess(directions));
+        emit(TrajetoMapaSuccess(directions, await getBitMaps()));
       } catch (e) {
         emit(TrajetoMapaError(e.toString()));
       }
@@ -44,7 +48,7 @@ class TrajetoMapaBloc extends Bloc<TrajetoEvents, TrajetoMapaStates> {
       emit(TrajetoMapaLoading());
       try {
         final directions = await _buscarDirecoes(originId!, destinationId!);
-        emit(TrajetoMapaSuccess(directions));
+        emit(TrajetoMapaSuccess(directions, await getBitMaps()));
       } catch (e) {
         emit(TrajetoMapaError(e.toString()));
       }
@@ -58,7 +62,8 @@ class TrajetoMapaBloc extends Bloc<TrajetoEvents, TrajetoMapaStates> {
       emit(TrajetoMapaLoading());
       try {
         final directions = await _buscarDirecoes(originId!, destinationId!);
-        emit(TrajetoMapaSuccess(directions));
+
+        emit(TrajetoMapaSuccess(directions, await getBitMaps()));
       } catch (e) {
         emit(TrajetoMapaError(e.toString()));
       }
@@ -75,5 +80,24 @@ class TrajetoMapaBloc extends Bloc<TrajetoEvents, TrajetoMapaStates> {
     } catch (e) {
       throw Exception();
     }
+  }
+
+  Future<List<BitmapDescriptor>> getBitMaps() async {
+   final iconPartida = BitmapDescriptor.fromBytes(
+      await getBytesFromAsset("assets/icons/ic-partida.png", 150),
+    );
+
+    final iconDestino =  BitmapDescriptor.fromBytes(
+       await getBytesFromAsset("assets/icons/ic-destino.png", 150),
+    );
+
+    return [iconPartida,iconDestino];
+  }
+
+  static Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 }
