@@ -23,22 +23,19 @@ class TrajetoMapState extends State<TrajetoMap> {
       BitmapDescriptor iconPartida, BitmapDescriptor iconDestino) {
     return {
       Marker(
-        markerId: const MarkerId("origin"),
-        position: startPos,
-        icon: iconPartida,
-        anchor: const Offset(0.5, 0.5)
-      ),
+          markerId: const MarkerId("origin"),
+          position: startPos,
+          icon: iconPartida,
+          anchor: const Offset(0.5, 0.5)),
       Marker(
-        markerId: const MarkerId("destiny"),
-        position: endPos,
-        icon: iconDestino,
-          anchor: const Offset(0.5, 0.5)
-      )
+          markerId: const MarkerId("destiny"),
+          position: endPos,
+          icon: iconDestino,
+          anchor: const Offset(0.5, 0.5))
     };
   }
 
   String _getId() => "polyline${i++}";
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +65,8 @@ class TrajetoMapState extends State<TrajetoMap> {
                     state.directions.startLocation.longitude),
                 LatLng(state.directions.endLocation.latitude,
                     state.directions.endLocation.longitude),
-            state.bitMaps[0], state.bitMaps[1]),
+                state.bitMaps[0],
+                state.bitMaps[1]),
             polylines: _polylines,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
@@ -83,7 +81,31 @@ class TrajetoMapState extends State<TrajetoMap> {
           );
         }
         if (state is TrajetoMapaInitialState) {
-          return Container();
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children:  [
+                Image.asset("assets/images/escrever.png", width: 140,),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text("Ops.. Campos faltando", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),),
+                ),
+                const SizedBox(
+                  height: 14,
+                ),
+                const Padding(
+                   padding: EdgeInsets.symmetric(horizontal: 16.0),
+                   child: Text(
+                      "Escolha uma Origem e um Destino no formulário para gerarmos sua rota ;)",
+                textAlign: TextAlign.center,),
+                 ),
+                const SizedBox(
+                  height: 60,
+                ),
+              ],
+            ),
+          );
         }
         if (state is TrajetoMapaLoading) {
           return const Center(
@@ -91,7 +113,30 @@ class TrajetoMapState extends State<TrajetoMap> {
           );
         }
         if (state is TrajetoMapaError) {
-          return Container();
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                 Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text("Ocorreu algum erro", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),),
+                ),
+                 SizedBox(
+                  height: 14,
+                ),
+                 Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    "Por favor, verifique sua conexão com a internet e tente novamente",
+                    textAlign: TextAlign.center,),
+                ),
+                 SizedBox(
+                  height: 60,
+                ),
+              ],
+            ),
+          );
         }
         return Container();
       },
