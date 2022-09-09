@@ -20,7 +20,7 @@ class Directions {
         boundsNe = Coordinate.fromJson(json['routes'][0]['bounds']['northeast']),
         boundsSw = Coordinate.fromJson(json['routes'][0]['bounds']['southwest']),
         startLocation = Coordinate.fromJson(json['routes'][0]['legs'][0]['start_location']),
-        endLocation = Coordinate.fromJson(json['routes'][0]['legs'][0]['end_location']),
+        endLocation = Coordinate.fromJson(json['routes'][0]['legs'].last['end_location']),
         polyline = json['routes'][0]['overview_polyline']['points'],
         polylineDecoded = PolylinePoints().decodePolyline(json['routes'][0]['overview_polyline']['points']);
 

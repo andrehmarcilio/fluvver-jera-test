@@ -1,8 +1,11 @@
+import 'package:uuid/uuid.dart';
+
 import 'rota.dart';
 import 'veiculo.dart';
 import 'volume.dart';
 
 class Viagem {
+  String id = const Uuid().v4();
   Veiculo? veiculo;
   Rota? rota;
   Volume? volume;
@@ -23,4 +26,13 @@ class Viagem {
   String toString() {
     return "Viagem (veiculo : ${veiculo?.nome}, rota - $rota, volume - Volume(tamanho: ${volume?.tamanho?.nome}, peso: ${volume?.peso?.nome}))";
   }
+
+
+  // Map toMap() {
+  //   return {
+  //     "viagem_id": id,
+  //     "veiculo": veiculo?.value,
+  //     "rota": rota.toMap(),
+  //   };
+  // }
 }
