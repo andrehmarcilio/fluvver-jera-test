@@ -9,7 +9,6 @@ import 'view/preco_form_view.dart';
 import 'view/tamanho_form_view.dart';
 import 'view/trajeto_form_view.dart';
 import 'view/veiculo_form_view.dart';
-import 'view/viagem_criada_view.dart';
 
 class ViagemFormFlow extends StatelessWidget {
   const ViagemFormFlow({Key? key}) : super(key: key);
@@ -19,10 +18,9 @@ class ViagemFormFlow extends StatelessWidget {
     final viagemDao = context.read<ViagemDao>();
     return FlowBuilder<Viagem>(
       state: Viagem(),
-      onComplete: (viagem) {
+      onComplete: (viagem) async {
         viagemDao.createViagem(viagem);
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const ViagemCriadaView()));
+        Navigator.of(context).popAndPushNamed("/viagem-criada");
       },
       onGeneratePages: (viagem, pages) {
         return [

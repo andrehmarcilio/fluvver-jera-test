@@ -14,4 +14,9 @@ class Lugar {
        "description": nome
     };
   }
+
+  @override
+  String toString() {
+    return nome;
+  }
 }

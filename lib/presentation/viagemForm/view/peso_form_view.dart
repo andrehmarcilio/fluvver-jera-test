@@ -95,7 +95,6 @@ class _PesoFormViewState extends State<PesoFormView> {
               AdviceToast.show(
                   context, "Selecione algum item para continuar");
             }
-
           }),
         ],
       ),
