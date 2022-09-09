@@ -1,6 +1,8 @@
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../data/local/dao/viagem_dao.dart';
 import '../../domain/entity/viagem.dart';
 import 'view/peso_form_view.dart';
 import 'view/preco_form_view.dart';
@@ -14,10 +16,11 @@ class ViagemFormFlow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viagemDao = context.read<ViagemDao>();
     return FlowBuilder<Viagem>(
       state: Viagem(),
       onComplete: (viagem) {
-        print(viagem);
+        viagemDao.createViagem(viagem);
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const ViagemCriadaView()));
       },

@@ -1,3 +1,4 @@
+import 'package:muvver_jera_teste/utils/extensions/enum_extensions.dart';
 import 'package:uuid/uuid.dart';
 
 import 'rota.dart';
@@ -27,12 +28,20 @@ class Viagem {
     return "Viagem (veiculo : ${veiculo?.nome}, rota - $rota, volume - Volume(tamanho: ${volume?.tamanho?.nome}, peso: ${volume?.peso?.nome}))";
   }
 
+  Map toMap() {
+    Map mapa = {};
+    mapa["viagemId"] = id;
+    mapa["veiculo"] = veiculo?.value;
+    mapa["rota"] = rota?.toMap();
+    mapa["volume"] = volume?.toMap();
+    mapa["preco"] = preco;
+    return {id: mapa};
+  }
 
-  // Map toMap() {
-  //   return {
-  //     "viagem_id": id,
-  //     "veiculo": veiculo?.value,
-  //     "rota": rota.toMap(),
-  //   };
-  // }
+  Viagem.fromMap(Map map)
+      : id = map["viagemId"],
+        veiculo = Veiculo.pegarPeloValue(map["veiculo"]),
+        rota = Rota.fromMap(map["rota"]),
+        volume = Volume.fromMap(map["volume"]),
+        preco = map["preco"];
 }

@@ -7,4 +7,11 @@ class Lugar {
   Lugar.fromJson(Map json)
       : nome = json['description'],
         id = json['place_id'];
+
+  Map toMap() {
+    return {
+      "place_id": id,
+       "description": nome
+    };
+  }
 }

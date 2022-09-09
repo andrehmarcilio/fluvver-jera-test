@@ -9,6 +9,9 @@ enum Peso {
   final String nome;
   final String imagePath;
 
+  static pegarPeloValue(String value) =>
+      Peso.values.firstWhere((element) => element.value == value);
+
   const Peso(
       {required this.imagePath, required this.value, required this.nome});
 }

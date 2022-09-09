@@ -28,6 +28,9 @@ enum Tamanho {
   final String imagePath;
   final String nome;
 
+  static pegarPeloValue(String value) =>
+      Tamanho.values.firstWhere((element) => element.value == value);
+
   const Tamanho(
       {required this.value, required this.imagePath, required this.nome});
 }

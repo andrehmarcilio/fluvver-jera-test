@@ -40,6 +40,8 @@ enum Veiculo {
   final String imagePath;
   final String nome;
 
+  static pegarPeloValue(String value) => Veiculo.values.firstWhere((element) => element.value == value);
+
   const Veiculo(
       {required this.value, required this.imagePath, required this.nome});
 }
