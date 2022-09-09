@@ -2,8 +2,8 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/local/dao/viagem_dao.dart';
 import '../../domain/entity/viagem.dart';
+import '../home/bloc/viagens_cubit.dart';
 import 'view/peso_form_view.dart';
 import 'view/preco_form_view.dart';
 import 'view/tamanho_form_view.dart';
@@ -15,11 +15,11 @@ class ViagemFormFlow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viagemDao = context.read<ViagemDao>();
+    final cubit = context.read<ViagensCubit>();
     return FlowBuilder<Viagem>(
       state: Viagem(),
       onComplete: (viagem) async {
-        viagemDao.createViagem(viagem);
+        cubit.createViagem(viagem);
         Navigator.of(context).popAndPushNamed("/viagem-criada");
       },
       onGeneratePages: (viagem, pages) {
