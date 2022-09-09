@@ -51,7 +51,7 @@ class _PesoFormViewState extends State<PesoFormView> {
                     top: false,
                     left: false,
                     right: false,
-                    minimum: const EdgeInsets.only(bottom: 80),
+                    minimum: const EdgeInsets.only(bottom: 100),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -60,6 +60,7 @@ class _PesoFormViewState extends State<PesoFormView> {
                         ),
                         const TituloText(titulo: "Peso"),
                         ListView.separated(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
                           itemCount: pesos.length,

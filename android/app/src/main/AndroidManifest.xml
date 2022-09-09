@@ -5,10 +5,10 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="muvver_jera_teste">
+        android:label="Muvver Jera Teste">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAfox5nf4dUtgn11-IwOzLeda5rscOkQeI" />
+            android:value="CHAVE_SECRETA" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

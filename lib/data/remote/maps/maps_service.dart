@@ -6,7 +6,7 @@ import 'package:muvver_jera_teste/utils/extensions/string_list_extensions.dart';
 import '../../../domain/entity/directions.dart';
 import '../../../domain/entity/lugar.dart';
 
-const API_KEY = 'AIzaSyBDVfV5Cau-P6vzVjAJBaCZL4WnTx90TDg';
+const API_KEY = 'CHAVE_SECRETA';
 const baseUrl = "https://maps.googleapis.com/maps/api";
 
 class MapsService {
